@@ -25,7 +25,7 @@ app.use('*', handleNotFound);
 app.use(handleError);
 
 function handleHome(req, res) {
-  res.status(200).send('Server is working');
+  res.render('pages/searches/new');
 }
 
 function handleHello(req, res) {
