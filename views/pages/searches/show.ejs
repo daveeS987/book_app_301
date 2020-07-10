@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Results</title>
+    <link rel="stylesheet" href="/reset/base.css">
+    <link rel="stylesheet" href="/styles/base.css">
+  </head>
+  <header>
+    <div>Best Books</div>
+    <div>Search Results</div>
+  </header>
+  <body>
+
+    <% data.forEach(book => { %>
+    <section>
+      <img src=" <%= book.image %> ">
+      <h2> <%= book.title %> </h2>
+      <h3> <%= book.author %> </h3>
+      <p> <%= book.description %> </p>
+    </section>
+    <% }) %>
+
+  </body>
+  <footer></footer>
+</html>

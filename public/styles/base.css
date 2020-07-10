@@ -1,0 +1,68 @@
+body {
+  background-color: gray;
+}
+
+nav{
+  background-color: black;
+  border: 2px solid black;
+  color: white;
+  font-size: 45px;
+  height: 100px;
+  line-height: 100px;
+  margin-bottom: -20px;
+  text-indent: 20px;
+}
+
+.search_query, .title, .author, header{
+  height: 75px;
+  font-size: 25px;
+  line-height: 75px;
+  margin: 20px auto;
+  text-indent: 10px;
+  width: 60%;
+}
+
+header{
+  background-color: rgb(87, 86, 86);
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.title, .author{
+  background-color: rgb(170, 169, 169);
+  color: rgb(51, 51, 51);
+}
+
+.button{
+  margin: 20px auto;
+  width: 60%;
+}
+
+button, .search_query{
+  background-color: black;
+  color: white;
+  font-size: 25px;
+  height: 75px;
+  margin: auto;
+  width: 100%;
+}
+
+.search_queryBox{
+  margin: 10px auto;
+  width: 60%;
+}
+
+.search_query, .search_query::placeholder{
+  background-color: white;
+  border: 0px;
+  padding: 0px;
+  width: 100%;
+  color: rgb(51, 51, 51)
+}
+
+footer{
+  background-color: black;
+  height: 60px;
+}
