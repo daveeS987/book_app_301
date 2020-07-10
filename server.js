@@ -58,9 +58,9 @@ function Books(obj) {
   let regex = (/^http:\/\//i, 'https://');
 
   this.image = (obj.volumeInfo.imageLinks.thumbnail).replace(regex) || `https://i.imgur.com/J5LVHEL.jpg`;
-  this.title = obj.volumeInfo.title || 'No Title Found.';
-  this.author = obj.volumeInfo.authors || 'No Author Found.';
-  this.description = obj.volumeInfo.description || 'No Description Found.';
+  this.title = obj.volumeInfo.title || 'Title Not Found.';
+  this.author = obj.volumeInfo.authors || 'Author Not Found.';
+  this.description = obj.volumeInfo.description || 'Description Not Found.';
 }
 
 
