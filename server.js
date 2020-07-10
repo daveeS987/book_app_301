@@ -20,14 +20,46 @@ app.listen(PORT, () => console.log(`Server is up on port: ${PORT}`));
 
 // Routes
 app.get('/', handleHome);
+app.post('/searches', handleSearch);
 app.get('/hello', handleHello);
 app.use('*', handleNotFound);
 app.use(handleError);
 
+
+///////////////// Home Page
 function handleHome(req, res) {
   res.render('pages/searches/new');
 }
 
+
+
+
+////////////////// Search
+function handleSearch(req, res) {
+  const API = 'https://www.googleapis.com/books/v1/volumes'
+  let queryObj = {
+    q: `${req.body.title_author}:${req.body.search_query}`
+  };
+
+  superagent
+    .get(API)
+    .query(queryObj)
+    .then(apiData => {
+      let bookArr = apiData.body.items.map(value => new Books(value));
+      res.render('pages/searches/show', { data: bookArr });
+
+    });
+}
+
+function Books(obj) {
+  this.image = (obj.volumeInfo.imageLinks.thumbnail).replace(/^http:\/\//i, 'https://') || `https://i.imgur.com/J5LVHEL.jpg`;
+  this.title = obj.volumeInfo.title || 'N/A';
+  this.author = obj.volumeInfo.authors || 'N/A';
+  this.description = obj.volumeInfo.description || 'N/A';
+}
+
+
+////////////////////// Errors and Tests
 function handleHello(req, res) {
   res.render('pages/index');
 }
