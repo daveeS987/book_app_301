@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Results</title>
+    <link rel="stylesheet" href="/styles/reset.css">
+    <link rel="stylesheet" href="/styles/base.css">
+  </head>
+  <nav>
+    <div>Best Books</div>
+  </nav>
+  <header>
+    <div>Search Results</div>
+  </header>
+  <body>
 
-<head>
-  <title>Results</title>
-</head>
+    <% data.forEach(book => { %>
+    <section>
+      <div class="img">
+        <img src=" <%= book.image %> ">
+      </div>
+      <h2> <%= book.title %> </h2>
+      <h3> <%= book.author %> </h3>
+      <p> <%= book.description %> </p>
+      <button>Select this Book</button>
+    </section>
+    <% }) %>
 
-<body>
-
-  <% data.forEach(book => { %>
-
-  <section>
-    <img src=" <%= book.image %> ">
-    <h2> <%= book.title %> </h2>
-    <h3> <%= book.author %> </h3>
-    <p> <%= book.description %> </p>
-  </section>
-
-  <% }) %>
-
-
-</body>
-
+  </body>
+  <footer></footer>
 </html>
