@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-
-<head>
-  <title>Search</title>
-</head>
-
-<body>
-
-  <form method="post" action='/searches'>
-    <div>
-      <input name="search_query" type="text" placeholder="search">
-    </div>
-
-    <div>
-      <input type="radio" name="title_author" value="intitle"> Title
-    </div>
-
-    <div>
-      <input type="radio" name="title_author" value="inauthor"> Author
-    </div>
-
-    <div>
-      <button type="submit">Search the Google Books API</button>
-    </div>
-  </form>
-
-</body>
-
+<html lang="en">
+  <head>
+    <title>Search</title>
+  </head>
+  <body>
+    <form method="post" action='/searches'>
+      <div>
+        <input name="search_query" type="text" placeholder="search">
+      </div>
+      <div>
+        <input type="radio" name="title_author" value="intitle"> Title
+      </div>
+      <div>
+        <input type="radio" name="title_author" value="inauthor"> Author
+      </div>
+      <div>
+        <button type="submit">Search Google Books API</button>
+      </div>
+    </form>
+  </body>
 </html>

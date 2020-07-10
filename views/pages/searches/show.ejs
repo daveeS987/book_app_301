@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Results</title>
+  </head>
+  <body>
 
-<head>
-  <title>Results</title>
-</head>
-
-<body>
-
-  <% data.forEach(book => { %>
-
-  <section>
-    <img src=" <%= book.image %> ">
-    <h2> <%= book.title %> </h2>
-    <h3> <%= book.author %> </h3>
-    <p> <%= book.description %> </p>
-  </section>
-
-  <% }) %>
-
-
-</body>
-
+    <% data.forEach(book => { %>
+    <section>
+      <img src=" <%= book.image %> ">
+      <h2> <%= book.title %> </h2>
+      <h3> <%= book.author %> </h3>
+      <p> <%= book.description %> </p>
+    </section>
+    <% }) %>
+    
+  </body>
 </html>
