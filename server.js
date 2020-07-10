@@ -25,48 +25,41 @@ app.get('/hello', handleHello);
 app.use('*', handleNotFound);
 app.use(handleError);
 
+
+///////////////// Home Page
 function handleHome(req, res) {
   res.render('pages/searches/new');
 }
 
+
+
+
+////////////////// Search
 function handleSearch(req, res) {
-  // req.body
-  // intitle 
-  // inauthor
-
-  // if req.body.title_author === title 
   const API = 'https://www.googleapis.com/books/v1/volumes'
-
   let queryObj = {
     q: `${req.body.title_author}:${req.body.search_query}`
   };
-  console.log('queryObj: ', queryObj);
 
   superagent
     .get(API)
     .query(queryObj)
     .then(apiData => {
-      console.log(apiData.body.items);
-
       let bookArr = apiData.body.items.map(value => new Books(value));
-      res.send(bookArr);
-      // res.send(apiData.body.items);
+      res.render('pages/searches/show', { data: bookArr });
+
     });
 }
 
 function Books(obj) {
-  //image
-  //book title
-  // author name
-  // description
-  this.image = obj.volumeInfo.imageLinks.thumbnail;
-  this.title = obj.volumeInfo.title;
-  this.author = obj.volumeInfo.authors;
-  this.description = obj.volumeInfo.description;
+  this.image = (obj.volumeInfo.imageLinks.thumbnail).replace(/^http:\/\//i, 'https://') || `https://i.imgur.com/J5LVHEL.jpg`;
+  this.title = obj.volumeInfo.title || 'N/A';
+  this.author = obj.volumeInfo.authors || 'N/A';
+  this.description = obj.volumeInfo.description || 'N/A';
 }
 
 
-
+////////////////////// Errors and Tests
 function handleHello(req, res) {
   res.render('pages/index');
 }
