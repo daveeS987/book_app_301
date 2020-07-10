@@ -20,22 +20,27 @@ app.listen(PORT, () => console.log(`Server is up on port: ${PORT}`));
 
 // Routes
 app.get('/', handleHome);
-app.post('/searches', handleSearch);
-app.get('/hello', handleHello);
+app.get('/searchs/new', handleSearch);
+app.post('/searches', handleResult);
 app.use('*', handleNotFound);
 app.use(handleError);
 
 
 ///////////////// Home Page
 function handleHome(req, res) {
+  res.render('pages/index');
+}
+
+////////////////// Search for books
+function handleSearch(req, res){
   res.render('pages/searches/new');
 }
 
 
 
 
-////////////////// Search
-function handleSearch(req, res) {
+////////////////// Renders Results
+function handleResult(req, res) {
   const API = 'https://www.googleapis.com/books/v1/volumes'
   let queryObj = {
     q: `${req.body.title_author}:${req.body.search_query}`
@@ -60,15 +65,11 @@ function Books(obj) {
 
 
 ////////////////////// Errors and Tests
-function handleHello(req, res) {
-  res.render('pages/index');
-}
-
 function handleNotFound(req, res) {
   res.status(404).send('Route not found');
 }
 
 function handleError(error, req, res, next) {
   console.log(error);
-  res.status(500).send('Something bad happened');
+  res.render('pages/error', {errMessage: error.message});
 }
