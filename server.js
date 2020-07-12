@@ -30,34 +30,34 @@ function handleHome(req, res) {
   res.render('pages/index');
 }
 
+
 //-------- Search for books
 function handleSearch(req, res){
   res.render('pages/searches/new');
 }
 
+
 //-------- Renders Results
 function renderResults(req, res) {
   const API = 'https://www.googleapis.com/books/v1/volumes';
-
   let queryObj = {
     q: `${req.body.title_author}:${req.body.search_query}`
   };
 
   superagent.get(API).query(queryObj).then(apiData => {
     let bookArr = apiData.body.items.map(value => new Books(value));
-
+    console.log(bookArr);
     res.render('pages/searches/show', { data: bookArr });
   });
-
 }
 
 function Books(obj) {
   let regex = (/^http:\/\//i, 'https://');
-
   this.image_url = (obj.volumeInfo.imageLinks.thumbnail).replace(regex) || `https://i.imgur.com/J5LVHEL.jpg`;
   this.title = obj.volumeInfo.title || 'Title Not Found.';
   this.author = obj.volumeInfo.authors || 'Author Not Found.';
   this.description = obj.volumeInfo.description || 'Description Not Found.';
+  this.isbn = obj.industryIdentifiers[0].identifier || 'ISBN not found';
 }
 
 
@@ -72,6 +72,7 @@ function handleError(error, req, res, next) {
 }
 
 
-// Listen on Port, Start the server
-app.listen(PORT, () => console.log(`Server is up on port: ${PORT}`));
-
+////////////// Listen on Port, Start the server
+client.connect(() => {
+  app.listen(PORT, () => console.log(`Server is up on port: ${PORT}`));
+});
