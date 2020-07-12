@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <title>Search</title>
-    <link rel="stylesheet" href="/styles/reset.css">
-    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
   </head>
   <nav>
     <div>Search Books</div>
@@ -12,15 +12,17 @@
     <div>Search by Title or Author</div>
   </header>
   <body>
-    <form method="post" action='/searches'>
+    <form method="post" action="/searches">
       <div class="search_queryBox">
-        <input class="search_query" name="search_query" type="text" placeholder="search">
+        <input class="search_query" name="search_query" type="text" placeholder="Search title or author" required="required" />
       </div>
       <div class="title">
-        Title<input type="radio" name="title_author" value="intitle">
+        Title
+        <input type="radio" name="title_author" value="intitle" required="required" />
       </div>
       <div class="author">
-        Author<input type="radio" name="title_author" value="inauthor">
+        Author
+        <input type="radio" name="title_author" value="inauthor" required="required" />
       </div>
       <div class="button">
         <button class="search_submit" type="submit">Search Google Books</button>
