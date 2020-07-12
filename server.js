@@ -49,20 +49,18 @@ function renderResults(req, res) {
     .query(queryObj)
     .then(apiData => {
       let bookArr = apiData.body.items.map(value => new Books(value));
-      res.send(bookArr);
-      // res.render('pages/searches/show', { data: bookArr });
+      // res.send(bookArr);
+      res.render('pages/searches/show', { data: bookArr });
     })
     .catch(error => handleError(error, res));
 }
 
 function Books(obj) {
-  let regex = (/^http:\/\//i, 'https://');
-
-  this.image_url = (obj.volumeInfo.imageLinks.thumbnail).replace(regex) || `https://i.imgur.com/J5LVHEL.jpg`;
+  this.image_url = obj.volumeInfo.imageLinks.thumbnail.replace(/^http:\/\//i, 'https://') || `https://i.imgur.com/J5LVHEL.jpg`;
   this.title = obj.volumeInfo.title || 'Title Not Found.';
   this.author = obj.volumeInfo.authors || 'Author Not Found.';
   this.description = obj.volumeInfo.description || 'Description Not Found.';
-  // this.isbn = obj.industryIdentifiers[0].identifier || 'ISBN not found';
+  this.isbn = obj.volumeInfo.industryIdentifiers[0].identifier || 'ISBN not found';
 }
 
 
