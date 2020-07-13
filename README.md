@@ -1,13 +1,13 @@
-# book_app_301
+# Book App
 
-# Project Name
-
-**Author**: Your Name Goes Here
+**Author**: Reagan Roberts & Davee Sok
 **Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
 
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for a Code 301 class. (i.e. What's your problem domain?) -->
+
+A user can search for books and save it to their library.
 
 ## Getting Started
 
@@ -16,6 +16,8 @@
 ## Architecture
 
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+
+Will be using JavaScript, HTML, CSS, node.js, express, cors, superagent, PSQL.
 
 ## Change Log
 
