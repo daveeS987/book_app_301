@@ -83,22 +83,16 @@ function renderBookDetails(req, res) {
     .catch(error => handleError(error, res));
 }
 
+////////////////     Cache Selected Book to Database and Redirect to Detail Page
 function handleSelectBook(req, res) {
-  // cache user selection to database
   let userInput = req.body;
-  cacheBookToDatabase(userInput, req, res);
-  // redirect to details page
-
-}
-
-/////////////////      Save Book to Database
-function cacheBookToDatabase(obj, req, res) {
-  const safeQuery = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, obj.bookshelf];
+  const safeQuery = [userInput.author, userInput.title, userInput.isbn, userInput.image_url, userInput.description, userInput.bookshelf];
   const SQL = `
     INSERT INTO books (author, title, isbn, image_url, description, bookshelf) 
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;`;
-  client.query(SQL, safeQuery)
+  client
+    .query(SQL, safeQuery)
     .then(results => {
       console.log('New book has been added to Database', results.rows);
       let dataBaseBooks = results.rows;
@@ -108,7 +102,7 @@ function cacheBookToDatabase(obj, req, res) {
 }
 
 
-////////////////////// Errors
+//////////////////    Errors
 function handleNotFound(req, res) {
   res.status(404).send('Route not found');
 }
