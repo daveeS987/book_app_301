@@ -83,13 +83,11 @@ function renderBookDetails(req, res) {
 }
 
 function handleSelectBook(req, res) {
-  // generate form to include all information needed to send to database
-  ////  add input field for user to enter bookshelf
-  ////  submit button will execute post request
-  // add information to database
-  // res will redirect to detail view of book that was added
+  // cache user selection to database
   let userInput = req.body;
   cacheBookToDatabase(userInput);
+  // redirect to details page
+
   res.send(userInput);
 }
 
