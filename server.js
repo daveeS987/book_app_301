@@ -22,6 +22,7 @@ app.get('/', handleHome);
 app.get('/searchs/new', handleSearch);
 app.post('/searches', renderResults);
 app.get('/bookDetail/:book_id', renderBookDetails);
+app.post('/bookDetail', handleSelectBook);
 app.use('*', handleNotFound);
 app.use(handleError);
 
@@ -34,21 +35,21 @@ function handleHome(req, res) {
       let amount = results.rowCount;
       let databaseArr = results.rows;
       res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books` });
-    });
+    })
+    .catch(error => handleError(error, res));
 }
 
-////////////////     Search for books
+////////////////     Render Search Page
 function handleSearch(req, res){
   res.render('pages/searches/new', {pgName: 'Search by Title or Author'});
 }
 
-////////////////    Renders Results
+////////////////    Render Search Results Page
 function renderResults(req, res) {
   const API = 'https://www.googleapis.com/books/v1/volumes';
   let queryObj = {
     q: `${req.body.title_author}:${req.body.search_query}`
   };
-
   superagent
     .get(API)
     .query(queryObj)
@@ -68,7 +69,7 @@ function Books(obj) {
   this.isbn = obj.volumeInfo.industryIdentifiers[0].identifier || 'ISBN not found';
 }
 
-////////////////     Render Details
+////////////////     Render Book Details Page
 function renderBookDetails(req, res) {
   // res.send(req.params);
   let SQL = `SELECT * FROM books WHERE id = $1`;
@@ -77,21 +78,38 @@ function renderBookDetails(req, res) {
   client.query(SQL, param)
     .then(results => {
       let dataBaseBooks = results.rows;
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page'});
-    });
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page' });
+    })
+    .catch(error => handleError(error, res));
+}
 
+////////////////     Cache Selected Book to Database and Redirect to Detail Page
+function handleSelectBook(req, res) {
+  let userInput = req.body;
+  const safeQuery = [userInput.author, userInput.title, userInput.isbn, userInput.image_url, userInput.description, userInput.bookshelf];
+  const SQL = `
+    INSERT INTO books (author, title, isbn, image_url, description, bookshelf) 
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *;`;
+  client
+    .query(SQL, safeQuery)
+    .then(results => {
+      console.log('New book has been added to Database', results.rows);
+      let dataBaseBooks = results.rows;
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page' });
+    })
+    .catch(error => handleError(error, res));
 }
 
 
-
-////////////////////// Errors
+//////////////////    Errors
 function handleNotFound(req, res) {
   res.status(404).send('Route not found');
 }
 
-function handleError(error, req, res, next) {
+function handleError(error, res) {
   console.log(error);
-  res.render('pages/error', {errMessage: error.message});
+  res.render('pages/error', {data: error.message, pgName: 'Error 404'});
 }
 
 
