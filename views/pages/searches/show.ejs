@@ -19,7 +19,7 @@
         <p><%= book.description %></p>
 
         <form method="post" action="/bookDetail">
-          <input type="text" name="bookShelf" placeholder="Enter Book Shelf Here" required="required" />
+          <input type="text" name="bookshelf" placeholder="Enter Book Shelf Here" required="required" />
           <input type="hidden" name="author" value="<%= book.author %>" />
           <input type="hidden" name="title" value="<%= book.title %>" />
           <input type="hidden" name="isbn" value="<%= book.isbn %>" />
