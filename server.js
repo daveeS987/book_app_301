@@ -22,7 +22,7 @@ app.get('/', handleHome);
 app.get('/searchs/new', handleSearch);
 app.post('/searches', renderResults);
 app.get('/bookDetail/:book_id', renderBookDetails);
-app.post('/bookDetail', saveBookToDatabase);
+app.post('/bookDetail', handleSelectBook);
 app.use('*', handleNotFound);
 app.use(handleError);
 
@@ -38,7 +38,7 @@ function handleHome(req, res) {
     });
 }
 
-////////////////     Search for Books Page
+////////////////     Render Search Page
 function handleSearch(req, res){
   res.render('pages/searches/new', {pgName: 'Search by Title or Author'});
 }
@@ -88,12 +88,13 @@ function handleSelectBook(req, res) {
   ////  submit button will execute post request
   // add information to database
   // res will redirect to detail view of book that was added
-
-
+  let userInput = req.body;
+  cacheBookToDatabase(userInput);
+  res.send(userInput);
 }
 
 /////////////////      Save Book to Database
-function saveBookToDatabase(obj) {
+function cacheBookToDatabase(obj) {
   const safeQuery = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, obj.bookshelf];
   const SQL = `
     INSERT INTO books (author, title, isbn, image_url, description, bookshelf) 
@@ -101,7 +102,7 @@ function saveBookToDatabase(obj) {
     RETURNING *;`;
   client.query(SQL, safeQuery)
     .then(results => {
-      console.log('New book has been added to Database', results.row[0]);
+      console.log('New book has been added to Database', results.rows[0]);
     });
 }
 

@@ -17,10 +17,22 @@
         <h3><%= book.title %></h3>
         <h4><%= book.author %></h4>
         <p><%= book.description %></p>
-        <button>Select this Book</button>
+
+        <form method="post" action="/bookDetail">
+          <input type="text" name="bookShelf" placeholder="Enter Book Shelf Here" required="required" />
+          <input type="hidden" name="author" value="<%= book.author %>" />
+          <input type="hidden" name="title" value="<%= book.title %>" />
+          <input type="hidden" name="isbn" value="<%= book.isbn %>" />
+          <input type="hidden" name="image_url" value="<%= book.image_url %>" />
+          <input type="hidden" name="description" value="<%= book.description %>" />
+
+          <button type="submit">Select this Book</button>
+        </form>
       </section>
       <% }) %>
     </main>
-    <footer></footer>
+    <footer>
+      <%- include('../../layout/footer') %>
+    </footer>
   </body>
 </html>
