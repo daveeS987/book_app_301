@@ -50,7 +50,6 @@ function renderResults(req, res) {
   let queryObj = {
     q: `${req.body.title_author}:${req.body.search_query}`
   };
-
   superagent
     .get(API)
     .query(queryObj)
@@ -76,8 +75,7 @@ function renderBookDetails(req, res) {
   let SQL = `SELECT * FROM books WHERE id = $1`;
   let param = [req.params.book_id];
 
-  client
-    .query(SQL, param)
+  client.query(SQL, param)
     .then(results => {
       let dataBaseBooks = results.rows;
       res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page' });
@@ -100,8 +98,7 @@ function cacheBookToDatabase(obj, req, res) {
     INSERT INTO books (author, title, isbn, image_url, description, bookshelf) 
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;`;
-  client
-    .query(SQL, safeQuery)
+  client.query(SQL, safeQuery)
     .then(results => {
       console.log('New book has been added to Database', results.rows);
       let dataBaseBooks = results.rows;

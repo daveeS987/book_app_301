@@ -33,6 +33,7 @@ header {
 
 main {
   margin-top: 240px;
+  margin-bottom: 100px;
 }
 
 .search_query, .title, .author {
