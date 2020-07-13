@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Results</title>
-    <link rel="stylesheet" href="/styles/reset.css">
-    <link rel="stylesheet" href="/styles/base.css">
+    <%- include('../../layout/head') %>
   </head>
   <nav>
     <div>Best Books</div>
@@ -12,19 +10,17 @@
     <div>Search Results</div>
   </header>
   <body>
-
     <% data.forEach(book => { %>
     <section>
       <div class="img">
-        <img src=" <%= book.image %> ">
+        <img src=" <%= book.image_url %> " />
       </div>
-      <h2> <%= book.title %> </h2>
-      <h3> <%= book.author %> </h3>
-      <p> <%= book.description %> </p>
+      <h2><%= book.title %></h2>
+      <h3><%= book.author %></h3>
+      <p><%= book.description %></p>
       <button>Select this Book</button>
     </section>
     <% }) %>
-
   </body>
   <footer></footer>
 </html>
