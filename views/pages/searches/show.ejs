@@ -3,20 +3,18 @@
   <head>
     <%- include('../../layout/head') %>
   </head>
-  <nav>
-    <div>Best Books</div>
-  </nav>
-  <header>
-    <div>Search Results</div>
-  </header>
   <body>
+    <header>
+      <%- include('../../layout/header') %>
+    </header>
+
     <% data.forEach(book => { %>
     <section>
       <div class="img">
         <img src=" <%= book.image_url %> " />
       </div>
-      <h2><%= book.title %></h2>
-      <h3><%= book.author %></h3>
+      <h3><%= book.title %></h3>
+      <h4><%= book.author %></h4>
       <p><%= book.description %></p>
       <button>Select this Book</button>
     </section>

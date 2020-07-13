@@ -3,13 +3,11 @@
   <head>
     <%- include('../../layout/head') %>
   </head>
-  <nav>
-    <div>Search Books</div>
-  </nav>
-  <header>
-    <div>Search by Title or Author</div>
-  </header>
   <body>
+    <header>
+      <%- include('../../layout/header') %>
+    </header>
+
     <form method="post" action="/searches">
       <div class="search_queryBox">
         <input class="search_query" name="search_query" type="text" placeholder="Search title or author" required="required" />
