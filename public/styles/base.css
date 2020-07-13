@@ -1,8 +1,32 @@
 body {
+  box-sizing: border-box;
   background-color: gray;
+  text-align: center;
 }
 
-nav{
+header {
+  width: 100%;
+}
+
+.header_title {
+  background-color: black;
+  border: 2px solid black;
+  color: white;
+  font-size: 45px;
+  height: 80px;
+  line-height: 100px;
+}
+
+.page {
+  background-color: rgb(87, 86, 86);
+  color: white;
+  margin-bottom: 20px;
+  height: 40px;
+  font-size: 30px;
+  padding-top: 15px;
+}
+
+/* .header {
   background-color: black;
   border: 2px solid black;
   color: white;
@@ -13,7 +37,15 @@ nav{
   text-indent: 20px;
 }
 
-.search_query, .title, .author, header{
+nav {
+  background-color: rgb(87, 86, 86);
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+} */
+
+.search_query, .title, .author {
   height: 75px;
   font-size: 25px;
   line-height: 75px;
@@ -22,25 +54,18 @@ nav{
   width: 60%;
 }
 
-header{
-  background-color: rgb(87, 86, 86);
-  color: white;
-  margin-bottom: 20px;
-  text-align: center;
-  width: 100%;
-}
-
-.title, .author{
+.title, .author {
   background-color: rgb(170, 169, 169);
   color: rgb(51, 51, 51);
+  text-align: left;
 }
 
-.button{
+.button {
   margin: 20px auto;
   width: 60%;
 }
 
-button, .search_query{
+button, .search_query {
   background-color: black;
   color: white;
   font-size: 25px;
@@ -49,12 +74,12 @@ button, .search_query{
   width: 100%;
 }
 
-.search_queryBox{
+.search_queryBox {
   margin: 10px auto;
   width: 60%;
 }
 
-.search_query, .search_query::placeholder{
+.search_query, .search_query::placeholder {
   background-color: white;
   border: 0px;
   padding: 0px;
@@ -62,7 +87,7 @@ button, .search_query{
   color: rgb(51, 51, 51)
 }
 
-footer{
+footer {
   background-color: black;
   height: 60px;
   width: 100%;
@@ -71,24 +96,22 @@ footer{
   bottom: 0;
 }
 
-
-
 /* ---------show */
 
-section{
+section {
   border: 2px solid black;
   width: 60%;
   margin: 20px auto;
 }
 
-p{
+p {
   width: 60%;
   height: 50px;
   overflow: scroll;
   margin: 20px auto;
 }
 
-h2, h3, .img{
+h2, h3, .img {
   text-align: center;
   margin: 20px auto;
 }

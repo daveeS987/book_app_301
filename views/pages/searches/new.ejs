@@ -3,13 +3,17 @@
   <head>
     <%- include('../../layout/head') %>
   </head>
-  <nav>
-    <div>Search Books</div>
-  </nav>
-  <header>
-    <div>Search by Title or Author</div>
-  </header>
   <body>
+    <header>
+      <div class="header_title">
+        <h1>Book App</h1>
+      </div>
+
+      <div class="page">
+        <h1>Search by Title or Author</h1>
+      </div>
+    </header>
+
     <form method="post" action="/searches">
       <div class="search_queryBox">
         <input class="search_query" name="search_query" type="text" placeholder="Search title or author" required="required" />
@@ -27,5 +31,6 @@
       </div>
     </form>
   </body>
+
   <footer></footer>
 </html>
