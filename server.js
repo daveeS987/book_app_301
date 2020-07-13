@@ -33,15 +33,13 @@ function handleHome(req, res) {
     .then(results => {
       let amount = results.rowCount;
       let databaseArr = results.rows;
-      console.log(databaseArr);
-      res.render('pages/index', { data: databaseArr, count: amount});
+      res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books` });
     });
-
 }
 
 ////////////////     Search for books
 function handleSearch(req, res){
-  res.render('pages/searches/new');
+  res.render('pages/searches/new', {pgName: 'Search by Title or Author'});
 }
 
 ////////////////    Renders Results
@@ -56,7 +54,7 @@ function renderResults(req, res) {
     .query(queryObj)
     .then(apiData => {
       let bookArr = apiData.body.items.map(value => new Books(value));
-      res.render('pages/searches/show', { data: bookArr });
+      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results' });
     })
     .catch(error => handleError(error, res));
 }
@@ -79,7 +77,7 @@ function renderBookDetails(req, res) {
   client.query(SQL, param)
     .then(results => {
       let dataBaseBooks = results.rows;
-      res.render('pages/books/show', { data: dataBaseBooks});
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page'});
     });
 
 }
