@@ -8,20 +8,19 @@
       <%- include('../../layout/header') %>
     </header>
 
-    <main></main>
-    <% data.forEach(book => { %>
-    <section>
-      <div class="img">
-        <img src=" <%= book.image_url %> " />
-      </div>
-      <h3><%= book.title %></h3>
-      <h4><%= book.author %></h4>
-      <p><%= book.description %></p>
-      <button>Select this Book</button>
-    </section>
-    <% }) %>
+    <main>
+      <% data.forEach(book => { %>
+      <section>
+        <div class="img">
+          <img src=" <%= book.image_url %> " />
+        </div>
+        <h3><%= book.title %></h3>
+        <h4><%= book.author %></h4>
+        <p><%= book.description %></p>
+        <button>Select this Book</button>
+      </section>
+      <% }) %>
     </main>
     <footer></footer>
   </body>
-
 </html>
