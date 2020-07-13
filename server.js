@@ -79,8 +79,9 @@ function renderBookDetails(req, res) {
       let dataBaseBooks = results.rows;
       res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page'});
     });
-
 }
+
+
 
 
 

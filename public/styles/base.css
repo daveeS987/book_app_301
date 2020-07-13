@@ -7,6 +7,9 @@ body {
 
 header {
   width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 
 .header_title {
@@ -18,8 +21,18 @@ header {
 .page {
   background-color: rgb(87, 86, 86);
   color: white;
-  margin-bottom: 20px;
-  height: 60px;
+  height: 70px;
+}
+
+.dropdown_menu {
+  background-color: rgb(114, 114, 114);
+  height: 70px;
+  margin-top: -12px;
+  padding-top: 0px;
+}
+
+main {
+  margin-top: 240px;
 }
 
 .search_query, .title, .author {
