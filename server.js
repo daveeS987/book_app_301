@@ -21,7 +21,7 @@ app.set('view engine', 'ejs');
 app.get('/', handleHome);
 app.get('/searchs/new', handleSearch);
 app.post('/searches', renderResults);
-app.get('/bookDetail', renderBookDetails);
+app.get('/bookDetail/:book_id', renderBookDetails);
 app.use('*', handleNotFound);
 app.use(handleError);
 
@@ -33,6 +33,7 @@ function handleHome(req, res) {
     .then(results => {
       let amount = results.rowCount;
       let databaseArr = results.rows;
+      console.log(databaseArr);
       res.render('pages/index', { data: databaseArr, count: amount});
     });
 
@@ -71,7 +72,16 @@ function Books(obj) {
 
 ////////////////     Render Details
 function renderBookDetails(req, res) {
-  res.render('pages/books/show');
+  // res.send(req.params);
+  let SQL = `SELECT * FROM books WHERE id = $1`;
+  let param = [req.params.book_id];
+
+  client.query(SQL, param)
+    .then(results => {
+      let dataBaseBooks = results.rows;
+      res.render('pages/books/show', { data: dataBaseBooks});
+    });
+
 }
 
 
