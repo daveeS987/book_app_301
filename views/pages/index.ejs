@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="en"></html>
   <head>
-    <title>Book App</title>
-    <link rel="stylesheet" href="/styles/reset.css">
-    <link rel="stylesheet" href="/styles/base.css">
+    <%- include('../layout/head') %>
   </head>
   <nav>
     <div>Book App</div>
   </nav>
   <header>
-    <div>Search, view and save your favorite books!</div>
+    <div><%=count%> Saved Books</div>
   </header>
-  <body></body>
+  <body>
+    <% data.forEach(book => { %>
+    <section>
+      <div class="img">
+        <img src=" <%= book.image_url %> " />
+      </div>
+      <h2><%= book.title %></h2>
+      <h3><%= book.author %></h3>
+      <button>View Details</button>
+    </section>
+    <% }) %>
+
+  </body>
   <footer></footer>
 </html>
+
+

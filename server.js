@@ -27,7 +27,14 @@ app.use(handleError);
 
 //-------- Home Page
 function handleHome(req, res) {
-  res.render('pages/index');
+  let SQL = 'SELECT * FROM books';
+  client.query(SQL)
+    .then(results => {
+      let amount = results.rowCount;
+      let databaseArr = results.rows;
+      res.render('pages/index', { data: databaseArr, count: amount});
+    });
+
 }
 
 
