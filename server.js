@@ -37,12 +37,12 @@ function handleHome(req, res) {
     });
 }
 
-////////////////     Search for books
+////////////////     Search for Books Page
 function handleSearch(req, res){
   res.render('pages/searches/new', {pgName: 'Search by Title or Author'});
 }
 
-////////////////    Renders Results
+////////////////    Render Search Results Page
 function renderResults(req, res) {
   const API = 'https://www.googleapis.com/books/v1/volumes';
   let queryObj = {
@@ -68,7 +68,7 @@ function Books(obj) {
   this.isbn = obj.volumeInfo.industryIdentifiers[0].identifier || 'ISBN not found';
 }
 
-////////////////     Render Details
+////////////////     Render Book Details Page
 function renderBookDetails(req, res) {
   // res.send(req.params);
   let SQL = `SELECT * FROM books WHERE id = $1`;
@@ -92,7 +92,7 @@ function handleNotFound(req, res) {
 
 function handleError(error, req, res, next) {
   console.log(error);
-  res.render('pages/error', {errMessage: error.message});
+  res.render('pages/error', {data: error.message, pgName: 'Error 404'});
 }
 
 
