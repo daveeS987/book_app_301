@@ -34,14 +34,20 @@ function handleHome(req, res) {
     .then(results => {
       let amount = results.rowCount;
       let databaseArr = results.rows;
-      res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books` });
+      let hide = 'hidden';
+      let show = '';
+
+      res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books`, home: hide, searchNew: show});
     })
     .catch(error => handleError(error, res));
 }
 
 ////////////////     Render Search Page
 function handleSearch(req, res){
-  res.render('pages/searches/new', {pgName: 'Search by Title or Author'});
+  let hide = 'hidden';
+  let show = '';
+
+  res.render('pages/searches/new', {pgName: 'Search by Title or Author', home: show, searchNew: hide});
 }
 
 ////////////////    Render Search Results Page
@@ -56,7 +62,8 @@ function renderResults(req, res) {
     .then(apiData => {
       console.log('hey API DATA____________+++++++++++++++++++++++!!!!!!!!!!!!!!!', apiData.body.items);
       let bookArr = apiData.body.items.map(value => new Books(value));
-      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results' });
+      let show = '';
+      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results', home: show, searchNew: show});
     })
     .catch(error => handleError(error, res));
 }
@@ -75,11 +82,12 @@ function renderBookDetails(req, res) {
   // res.send(req.params);
   let SQL = `SELECT * FROM books WHERE id = $1`;
   let param = [req.params.book_id];
+  let show = '';
 
   client.query(SQL, param)
     .then(results => {
       let dataBaseBooks = results.rows;
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page' });
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
     })
     .catch(error => handleError(error, res));
 }
@@ -95,10 +103,10 @@ function handleSelectBook(req, res) {
   client
     .query(SQL, safeQuery)
     .then(results => {
-      console.log(results.rows, 'results!!!!!!!!________');
-      console.log('New book has been added to Database', results.rows);
       let dataBaseBooks = results.rows;
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page' });
+      let show = '';
+
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
     })
     .catch(error => handleError(error, res));
 }
