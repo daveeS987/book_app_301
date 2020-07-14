@@ -9,6 +9,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const app = express();
+const methodOverride = require('method-override');
 const client = new pg.Client(process.env.DATABASE_URL);
 
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
+app.use(methodOverride('_method'));
 
 // Routes
 app.get('/', handleHome);
@@ -26,35 +28,35 @@ app.post('/bookDetail', handleSelectBook);
 app.use('*', handleNotFound);
 app.use(handleError);
 
-
 //////////////     Home Page
 function handleHome(req, res) {
   let SQL = 'SELECT * FROM books';
-  client.query(SQL)
+  client
+    .query(SQL)
     .then(results => {
       let amount = results.rowCount;
       let databaseArr = results.rows;
       let hide = 'hidden';
       let show = '';
 
-      res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books`, home: hide, searchNew: show});
+      res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books`, home: hide, searchNew: show });
     })
     .catch(error => handleError(error, res));
 }
 
 ////////////////     Render Search Page
-function handleSearch(req, res){
+function handleSearch(req, res) {
   let hide = 'hidden';
   let show = '';
 
-  res.render('pages/searches/new', {pgName: 'Search by Title or Author', home: show, searchNew: hide});
+  res.render('pages/searches/new', { pgName: 'Search by Title or Author', home: show, searchNew: hide });
 }
 
 ////////////////    Render Search Results Page
 function renderResults(req, res) {
   const API = 'https://www.googleapis.com/books/v1/volumes';
   let queryObj = {
-    q: `${req.body.title_author}:${req.body.search_query}`
+    q: `${req.body.title_author}:${req.body.search_query}`,
   };
   superagent
     .get(API)
@@ -63,7 +65,7 @@ function renderResults(req, res) {
       // console.log('hey API DATA____________+++++++++++++++++++++++!!!!!!!!!!!!!!!', apiData.body.items);
       let bookArr = apiData.body.items.map(value => new Books(value));
       let show = '';
-      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results', home: show, searchNew: show});
+      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results', home: show, searchNew: show });
     })
     .catch(error => handleError(error, res));
 }
@@ -84,10 +86,11 @@ function renderBookDetails(req, res) {
   let param = [req.params.book_id];
   let show = '';
 
-  client.query(SQL, param)
+  client
+    .query(SQL, param)
     .then(results => {
       let dataBaseBooks = results.rows;
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show });
     })
     .catch(error => handleError(error, res));
 }
@@ -106,11 +109,10 @@ function handleSelectBook(req, res) {
       let dataBaseBooks = results.rows;
       let show = '';
 
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show });
     })
     .catch(error => handleError(error, res));
 }
-
 
 //////////////////    Errors
 function handleNotFound(req, res) {
@@ -119,9 +121,8 @@ function handleNotFound(req, res) {
 
 function handleError(error, res) {
   console.log(error);
-  res.render('pages/error', {data: error.message, pgName: 'Error 404'});
+  res.render('pages/error', { data: error.message, pgName: 'Error 404' });
 }
-
 
 ////////////// Listen on Port, Start the server
 client.connect(() => {
