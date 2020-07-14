@@ -12,6 +12,16 @@ header {
   top: 0;
 }
 
+a{
+  font-size: 15px;
+  color: white;
+  text-decoration: none
+}
+
+a:hover{
+  color: rgb(63, 63, 63);
+}
+
 .menu{
   color: white;
   width: 140px;
@@ -20,6 +30,10 @@ header {
   margin: 10px auto;
   line-height: 50px;
   border-radius: 5px;
+}
+
+.menu:hover{
+  border: 2px solid white;
 }
 
 .header_title {
