@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Error</title>
-    </head>
-    <nav>
-        <div>Error 404</div>
-    </nav>
-      <header>
-        <div> <% errMessage %> </div>
-      </header>
-    <body>
-    </body>
+  <head>
+    <%- include('../layout/head') %>
+  </head>
+  <body>
+    <header>
+      <%- include('../layout/header') %>
+    </header>
+
+    <main>
+      <div><%= data %></div>
+    </main>
+
     <footer></footer>
+  </body>
 </html>

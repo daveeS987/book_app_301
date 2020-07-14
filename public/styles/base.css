@@ -1,19 +1,68 @@
 body {
+  box-sizing: border-box;
   background-color: gray;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-nav{
-  background-color: black;
-  border: 2px solid black;
+header {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+a{
+  font-size: 15px;
   color: white;
-  font-size: 45px;
-  height: 100px;
-  line-height: 100px;
-  margin-bottom: -20px;
-  text-indent: 20px;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.search_query, .title, .author, header{
+a:hover{
+  color: rgb(63, 63, 63);
+}
+
+.menu{
+  color: white;
+  width: 140px;
+  height: 50px;
+  background-color: rgba(39, 38, 38, 0.878);
+  margin: 10px auto;
+  line-height: 50px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.menu:hover{
+  border: 2px solid white;
+}
+
+.header_title {
+  background-color: black;
+  color: white;
+  height: 80px;
+}
+
+.page {
+  background-color: rgb(87, 86, 86);
+  color: white;
+  height: 70px;
+}
+
+.dropdown_menu {
+  background-color: rgb(114, 114, 114);
+  height: 70px;
+  margin-top: -12px;
+  padding-top: 0px;
+}
+
+main {
+  margin-top: 240px;
+  margin-bottom: 100px;
+}
+
+.search_query, .title, .author {
   height: 75px;
   font-size: 25px;
   line-height: 75px;
@@ -22,25 +71,22 @@ nav{
   width: 60%;
 }
 
-header{
-  background-color: rgb(87, 86, 86);
-  color: white;
-  margin-bottom: 20px;
-  text-align: center;
-  width: 100%;
-}
-
-.title, .author{
+.title, .author {
   background-color: rgb(170, 169, 169);
   color: rgb(51, 51, 51);
+  text-align: left;
 }
 
-.button{
+.button {
   margin: 20px auto;
   width: 60%;
 }
 
-button, .search_query{
+.details_button {
+  width: 70%;
+}
+
+button, .search_query {
   background-color: black;
   color: white;
   font-size: 25px;
@@ -49,12 +95,12 @@ button, .search_query{
   width: 100%;
 }
 
-.search_queryBox{
+.search_queryBox {
   margin: 10px auto;
   width: 60%;
 }
 
-.search_query, .search_query::placeholder{
+.search_query, .search_query::placeholder {
   background-color: white;
   border: 0px;
   padding: 0px;
@@ -62,7 +108,7 @@ button, .search_query{
   color: rgb(51, 51, 51)
 }
 
-footer{
+footer {
   background-color: black;
   height: 60px;
   width: 100%;
@@ -71,24 +117,51 @@ footer{
   bottom: 0;
 }
 
-
-
 /* ---------show */
 
-section{
+section {
   border: 2px solid black;
+  border-radius: 10px;
   width: 60%;
   margin: 20px auto;
+  background-color: rgb(193, 193, 193);
+  padding: 20px 10px;
 }
 
-p{
-  width: 60%;
+p {
+  width: 70%;
   height: 50px;
   overflow: scroll;
   margin: 20px auto;
 }
 
-h2, h3, .img{
+.img {
   text-align: center;
   margin: 20px auto;
+}
+
+h1 {
+  font-size: 40px;
+  padding-top: 20px;
+}
+
+h2 {
+  font-size: 30px;
+  padding-top: 15px;
+}
+
+h3 {
+  font-size: 24px;
+  margin: 12px;
+  color: white;
+}
+
+h4 {
+  font-size: 20px;
+  margin: 8px;
+}
+
+h5 {
+  font-size: 16px;
+  margin: 8px;
 }

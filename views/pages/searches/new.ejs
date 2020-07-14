@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Search</title>
-    <link rel="stylesheet" href="/styles/reset.css">
-    <link rel="stylesheet" href="/styles/base.css">
+    <%- include('../../layout/head') %>
   </head>
-  <nav>
-    <div>Search Books</div>
-  </nav>
-  <header>
-    <div>Search by Title or Author</div>
-  </header>
   <body>
-    <form method="post" action='/searches'>
-      <div class="search_queryBox">
-        <input class="search_query" name="search_query" type="text" placeholder="search">
-      </div>
-      <div class="title">
-        Title<input type="radio" name="title_author" value="intitle">
-      </div>
-      <div class="author">
-        Author<input type="radio" name="title_author" value="inauthor">
-      </div>
-      <div class="button">
-        <button class="search_submit" type="submit">Search Google Books</button>
-      </div>
-    </form>
+    <header>
+      <%- include('../../layout/header') %>
+    </header>
+
+    <main>
+      <form method="post" action="/searches">
+        <div class="search_queryBox">
+          <input class="search_query" name="search_query" type="text" placeholder="Search title or author" required="required" />
+        </div>
+        <div class="title">
+          Title
+          <input type="radio" name="title_author" value="intitle" required="required" />
+        </div>
+        <div class="author">
+          Author
+          <input type="radio" name="title_author" value="inauthor" required="required" />
+        </div>
+        <div class="button">
+          <button class="search_submit" type="submit">Search Google Books</button>
+        </div>
+      </form>
+    </main>
+    <footer>
+      <%- include('../../layout/footer') %>
+    </footer>
   </body>
-  <footer></footer>
 </html>
