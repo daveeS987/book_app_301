@@ -54,6 +54,7 @@ function renderResults(req, res) {
     .get(API)
     .query(queryObj)
     .then(apiData => {
+      console.log('hey API DATA____________+++++++++++++++++++++++!!!!!!!!!!!!!!!', apiData.body.items);
       let bookArr = apiData.body.items.map(value => new Books(value));
       res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results' });
     })
@@ -94,6 +95,7 @@ function handleSelectBook(req, res) {
   client
     .query(SQL, safeQuery)
     .then(results => {
+      console.log(results.rows, 'results!!!!!!!!________');
       console.log('New book has been added to Database', results.rows);
       let dataBaseBooks = results.rows;
       res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page' });

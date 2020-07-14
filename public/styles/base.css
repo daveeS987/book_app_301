@@ -12,6 +12,16 @@ header {
   top: 0;
 }
 
+.menu{
+  color: white;
+  width: 140px;
+  height: 50px;
+  background-color: rgba(39, 38, 38, 0.878);
+  margin: 10px auto;
+  line-height: 50px;
+  border-radius: 5px;
+}
+
 .header_title {
   background-color: black;
   color: white;
