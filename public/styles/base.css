@@ -12,6 +12,32 @@ header {
   top: 0;
 }
 
+a{
+  font-size: 15px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover{
+  color: rgb(63, 63, 63);
+}
+
+.menu{
+  color: white;
+  width: 140px;
+  height: 50px;
+  background-color: rgba(39, 38, 38, 0.878);
+  margin: 10px auto;
+  line-height: 50px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.menu:hover{
+  border: 2px solid white;
+}
+
 .header_title {
   background-color: black;
   color: white;
