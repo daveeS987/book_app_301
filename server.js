@@ -27,6 +27,7 @@ app.get('/bookDetail/:book_id', renderBookDetails);
 app.post('/bookDetail', handleSelectBook);
 
 app.delete('/delete/:book_id', handleDeleteBook);
+app.put('/updateBook/:book_id', handleUpdateBook);
 
 app.use('*', handleNotFound);
 app.use(handleError);
@@ -55,7 +56,7 @@ function handleSearch(req, res) {
   res.render('pages/searches/new', { pgName: 'Search by Title or Author', home: show, searchNew: hide });
 }
 
-////////////////    Render Search Results Page
+//////////////   Render Search Results Page
 function renderResults(req, res) {
   const API = 'https://www.googleapis.com/books/v1/volumes';
   let queryObj = {
@@ -73,7 +74,7 @@ function renderResults(req, res) {
     .catch(error => handleError(error, res));
 }
 
-//////////////     Book Constructor
+/////////////////////     Book Constructor
 function Books(obj) {
   this.image_url = obj.volumeInfo.imageLinks.thumbnail.replace(/^http:\/\//i, 'https://') || `https://i.imgur.com/J5LVHEL.jpg`;
   this.title = obj.volumeInfo.title || 'Title Not Found.';
@@ -98,7 +99,7 @@ function renderBookDetails(req, res) {
     .catch(error => handleError(error, res));
 }
 
-////////////////     Cache Selected Book to Database and Redirect to Detail Page
+/////     Cache Selected Book to Database and Redirect to Detail Page
 function handleSelectBook(req, res) {
   let userInput = req.body;
   const safeQuery = [userInput.author, userInput.title, userInput.isbn, userInput.image_url, userInput.description, userInput.bookshelf];
@@ -117,7 +118,7 @@ function handleSelectBook(req, res) {
     .catch(error => handleError(error, res));
 }
 
-///////////////    Delete Selected Book and Return to Home Page
+///////////   Delete Selected Book and Return to Home Page
 function handleDeleteBook(req, res) {
   console.log('req.param:++++++++++++++++++++++++++++++++++++++++++++++++', req.params);
   let SQL = 'DELETE from books WHERE id = $1';
@@ -129,6 +130,12 @@ function handleDeleteBook(req, res) {
       res.status(200).redirect('/');
     })
     .catch(error => handleError(error, res));
+}
+
+///////////   Update Selected Book and Return to Details Page
+function handleUpdateBook(req, res) {
+  console.log('req.body: ++++++++++++++++++++++++++++++++++++++++++++++++', req.body);
+  res.status(200).redirect('/bookDetail/:book_id');
 }
 
 //////////////////    Errors

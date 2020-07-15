@@ -18,19 +18,26 @@
   </form>
 </section>
 
-<section>
-  <form class="update_details">
+<section class="update_details">
+  <form method="post" action="/updateBook/<%= book.id %>?_method=put">
     <fieldset>
       <legend>Update Book Details</legend>
       <input type="text" />
+      <br />
       <input type="text" />
+      <br />
       <input type="text" />
+      <br />
       <input type="text" />
+      <br />
       <textarea type="text"></textarea>
+      <br />
       <select name="" id="" class="book_shelf">
         <option value="default">select bookshelf</option>
       </select>
+      <button type="submit">Update Book</button>
     </fieldset>
   </form>
 </section>
+
 <% }) %>
