@@ -50,7 +50,6 @@ function handleHome(req, res) {
 function handleSearch(req, res){
   let hide = 'hidden';
   let show = '';
-
   res.render('pages/searches/new', {pgName: 'Search by Title or Author', home: show, searchNew: hide});
 }
 
@@ -64,10 +63,15 @@ function renderResults(req, res) {
     .get(API)
     .query(queryObj)
     .then(apiData => {
-
       let bookArr = apiData.body.items.map(value => new Books(value));
       let show = '';
-      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results', home: show, searchNew: show});
+
+      res.render('pages/searches/show',
+        { data: bookArr,
+          pgName: 'Search Results',
+          home: show,
+          searchNew: show
+        });
     })
     .catch(error => handleError(error, res));
 }
@@ -83,54 +87,55 @@ function Books(obj) {
 
 ////////////////     Render Book Details Page
 function renderBookDetails(req, res) {
-  // console.log('_______________________________', req.params);
-  // res.send(req.params);
   let SQL = `SELECT * FROM books WHERE id = $1`;
-  // let SQL2 = 'SELECT DISTINCT bookshelf FROM books';
+  let SQL2 = 'SELECT DISTINCT bookshelf FROM books';
   let param = [req.params.book_id];
   let show = '';
 
   client.query(SQL, param)
-    .then(results => {
-      let dataBaseBooks = results.rows;
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
+    .then(result1 => {
+      client.query(SQL2)
+        .then(result2 => {
+          let withOutCurrentBookShelfArr = result2.rows.filter(value => value.bookshelf !== result1.rows[0].bookshelf);
+          res.render('pages/books/show',
+            { data: result1.rows[0],
+              dropdown: withOutCurrentBookShelfArr,
+              pgName: 'Details Page',
+              home: '',
+              searchNew: show
+            });
+        });
     })
     .catch(error => handleError(error, res));
 }
 
 //////// Update Book Details and then Redirect to Details Page
 function handleUpdateBook(req, res) {
-  // console.log('_________________', req.body);
   let SQL = `UPDATE books 
-  SET title = $1, author = $2, isbn = $3, description = $4, image_url = $5 
-  WHERE id = $6
+  SET title = $1, author = $2, isbn = $3, description = $4, image_url = $5, bookshelf = $6 
+  WHERE id = $7
   RETURNING *`;
   let bookNum = req.params.book_id;
-  let params = [req.body.title, req.body.author, req.body.isbn, req.body.description, req.body.image_url, req.params.book_id];
-  // console.log('++++++++++++++++++++++++++', bookNum);
-  // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!', params);
+  let params = [req.body.title, req.body.author, req.body.isbn, req.body.description, req.body.image_url, req.body.bookshelf, req.params.book_id];
 
   client.query(SQL, params)
     .then(results => {
-      let databaseShelfs = results.rows;
-      console.log('+++++++++++++++++++++++++++++++++++', databaseShelfs);
-      // console.log('+++++++++++++++++++++++++++', databaseShelfs);
-      //res.render('/updateBook/:book_id', {shelfs: databaseShelfs});
       res.redirect(`/bookDetail/${bookNum}`);
     }).catch(error => handleError(error, res));
 }
 
+//////      Delete Selected Book and Redirect to Home Page
 function handleDeleteBook(req, res){
   let SQL = 'DELETE FROM books WHERE id = $1';
   let params = [req.params.book_id];
 
-  client.query(SQL, params).then(results => {
-    res.status(200).redirect('/');
-  }).catch(error => handleError(error, res));
-
+  client.query(SQL, params)
+    .then(() => {
+      res.status(200).redirect('/');
+    }).catch(error => handleError(error, res));
 }
 
-////////////////     Cache Selected Book to Database and Redirect to Detail Page
+////     Cache Selected Book to Database and Redirect to Detail Page
 function handleSelectBook(req, res) {
   let userInput = req.body;
   const safeQuery = [userInput.author, userInput.title, userInput.isbn, userInput.image_url, userInput.description, userInput.bookshelf];
@@ -138,13 +143,9 @@ function handleSelectBook(req, res) {
     INSERT INTO books (author, title, isbn, image_url, description, bookshelf) 
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;`;
-  client
-    .query(SQL, safeQuery)
+  client.query(SQL, safeQuery)
     .then(results => {
-      let dataBaseBooks = results.rows;
-      let show = '';
-
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
+      res.status(200).redirect(`/bookDetail/${results.rows[0].id}`);
     })
     .catch(error => handleError(error, res));
 }
