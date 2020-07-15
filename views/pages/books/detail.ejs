@@ -16,18 +16,18 @@
   </form>
   
 </section>
-<% }) %>
+
 
 <section>
   <form method="post" action="/updateBook/<%=book.id%>?_method=put">
-    <input type="text" placeholder="Title"></br>
-    <input type="text" placeholder="Author"></br>
-    <input type="text" placeholder="ISBN"></br>
-    <input type="text" placeholder="Image"></br>
-    <textarea type="text" placeholder="Description"></textarea></br>
-    <select class="bookshelf" name="" id="">
-      <option value="Default">Select bookshelf</option>
-    </select>
+    <input type="text" name="title" value="<%= book.title %>"></br>
+    <input type="text" name="author" value="<%= book.author %>"></br>
+    <input type="text" name="isbn" value="<%= book.isbn %>"></br>
+    <input type="text" name="image_url" value="<%= book.image_url %>"></br>
+    <input type="text" name="description" value="<%= book.description %>"></input></br>
+
     <button type="submit">Submit Changes</button>
   </form>
 </section>
+
+<% }) %>
