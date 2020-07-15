@@ -9,7 +9,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const app = express();
-const methodOverride = require('method-override');
 const client = new pg.Client(process.env.DATABASE_URL);
 const override = require('method-override');
 
@@ -19,7 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.use(override('_method'));
 app.set('view engine', 'ejs');
-app.use(methodOverride('_method'));
 
 // Routes
 app.get('/', handleHome);
@@ -32,35 +30,35 @@ app.delete('/delete/:book_id', handleDeleteBook);
 app.use('*', handleNotFound);
 app.use(handleError);
 
+
 //////////////     Home Page
 function handleHome(req, res) {
   let SQL = 'SELECT * FROM books';
-  client
-    .query(SQL)
+  client.query(SQL)
     .then(results => {
       let amount = results.rowCount;
       let databaseArr = results.rows;
       let hide = 'hidden';
       let show = '';
 
-      res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books`, home: hide, searchNew: show });
+      res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books`, home: hide, searchNew: show});
     })
     .catch(error => handleError(error, res));
 }
 
 ////////////////     Render Search Page
-function handleSearch(req, res) {
+function handleSearch(req, res){
   let hide = 'hidden';
   let show = '';
 
-  res.render('pages/searches/new', { pgName: 'Search by Title or Author', home: show, searchNew: hide });
+  res.render('pages/searches/new', {pgName: 'Search by Title or Author', home: show, searchNew: hide});
 }
 
-//////////////   Render Search Results Page
+////////////////    Render Search Results Page
 function renderResults(req, res) {
   const API = 'https://www.googleapis.com/books/v1/volumes';
   let queryObj = {
-    q: `${req.body.title_author}:${req.body.search_query}`,
+    q: `${req.body.title_author}:${req.body.search_query}`
   };
   superagent
     .get(API)
@@ -69,12 +67,12 @@ function renderResults(req, res) {
 
       let bookArr = apiData.body.items.map(value => new Books(value));
       let show = '';
-      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results', home: show, searchNew: show });
+      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results', home: show, searchNew: show});
     })
     .catch(error => handleError(error, res));
 }
 
-/////////////////////     Book Constructor
+//////////////     Book Constructor
 function Books(obj) {
   this.image_url = obj.volumeInfo.imageLinks.thumbnail.replace(/^http:\/\//i, 'https://') || `https://i.imgur.com/J5LVHEL.jpg`;
   this.title = obj.volumeInfo.title || 'Title Not Found.';
@@ -92,11 +90,10 @@ function renderBookDetails(req, res) {
   let param = [req.params.book_id];
   let show = '';
 
-  client
-    .query(SQL, param)
+  client.query(SQL, param)
     .then(results => {
       let dataBaseBooks = results.rows;
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show });
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
     })
     .catch(error => handleError(error, res));
 }
@@ -147,30 +144,11 @@ function handleSelectBook(req, res) {
       let dataBaseBooks = results.rows;
       let show = '';
 
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show });
+      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
     })
     .catch(error => handleError(error, res));
 }
 
-///////////   Delete Selected Book and Return to Home Page
-function handleDeleteBook(req, res) {
-  console.log('req.param:++++++++++++++++++++++++++++++++++++++++++++++++', req.params);
-  let SQL = 'DELETE from books WHERE id = $1';
-  let safeQuery = [req.params.book_id];
-
-  client
-    .query(SQL, safeQuery)
-    .then(results => {
-      res.status(200).redirect('/');
-    })
-    .catch(error => handleError(error, res));
-}
-
-///////////   Update Selected Book and Return to Details Page
-function handleUpdateBook(req, res) {
-  console.log('req.body: ++++++++++++++++++++++++++++++++++++++++++++++++', req.body);
-  res.status(200).redirect('/bookDetail/:book_id');
-}
 
 //////////////////    Errors
 function handleNotFound(req, res) {
@@ -179,8 +157,9 @@ function handleNotFound(req, res) {
 
 function handleError(error, res) {
   console.log(error);
-  res.render('pages/error', { data: error.message, pgName: 'Error 404' });
+  res.render('pages/error', {data: error.message, pgName: 'Error 404'});
 }
+
 
 ////////////// Listen on Port, Start the server
 client.connect(() => {
