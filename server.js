@@ -50,7 +50,6 @@ function handleHome(req, res) {
 function handleSearch(req, res){
   let hide = 'hidden';
   let show = '';
-
   res.render('pages/searches/new', {pgName: 'Search by Title or Author', home: show, searchNew: hide});
 }
 
@@ -84,7 +83,6 @@ function Books(obj) {
 ////////////////     Render Book Details Page
 function renderBookDetails(req, res) {
   // console.log('_______________________________', req.params);
-  // res.send(req.params);
   let SQL = `SELECT * FROM books WHERE id = $1`;
   // let SQL2 = 'SELECT DISTINCT bookshelf FROM books';
   let param = [req.params.book_id];
@@ -100,22 +98,17 @@ function renderBookDetails(req, res) {
 
 //////// Update Book Details and then Redirect to Details Page
 function handleUpdateBook(req, res) {
-  // console.log('_________________', req.body);
   let SQL = `UPDATE books 
   SET title = $1, author = $2, isbn = $3, description = $4, image_url = $5 
   WHERE id = $6
   RETURNING *`;
   let bookNum = req.params.book_id;
   let params = [req.body.title, req.body.author, req.body.isbn, req.body.description, req.body.image_url, req.params.book_id];
-  // console.log('++++++++++++++++++++++++++', bookNum);
-  // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!', params);
 
   client.query(SQL, params)
     .then(results => {
       let databaseShelfs = results.rows;
       console.log('+++++++++++++++++++++++++++++++++++', databaseShelfs);
-      // console.log('+++++++++++++++++++++++++++', databaseShelfs);
-      //res.render('/updateBook/:book_id', {shelfs: databaseShelfs});
       res.redirect(`/bookDetail/${bookNum}`);
     }).catch(error => handleError(error, res));
 }
@@ -130,7 +123,7 @@ function handleDeleteBook(req, res){
 
 }
 
-////////////////     Cache Selected Book to Database and Redirect to Detail Page
+////     Cache Selected Book to Database and Redirect to Detail Page
 function handleSelectBook(req, res) {
   let userInput = req.body;
   const safeQuery = [userInput.author, userInput.title, userInput.isbn, userInput.image_url, userInput.description, userInput.bookshelf];
