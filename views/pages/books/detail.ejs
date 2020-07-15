@@ -26,8 +26,12 @@
     <select class="bookshelf" name="bookshelf" id="">
       <option value="Default" disabled>Select bookshelf</option>
       <option value="<%=data.bookshelf%>"><%=data.bookshelf%></option>
-    </select>
 
+      <% dropdown.forEach(shelf => { %>
+      <option value="<%=shelf.bookshelf%>"><%=shelf.bookshelf%></option>
+      <% }) %>
+
+    </select>
     <button type="submit">Submit Changes</button>
   </form>
 </section>

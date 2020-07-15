@@ -96,11 +96,10 @@ function renderBookDetails(req, res) {
     .then(result1 => {
       client.query(SQL2)
         .then(result2 => {
-          console.log('First: results.rows+++++++++++++++++++++++++++++++++++', result1.rows);
-          console.log('Second: results.rows!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', result2.rows);
+          let withOutCurrentBookShelfArr = result2.rows.filter(value => value.bookshelf !== result1.rows[0].bookshelf);
           res.render('pages/books/show',
             { data: result1.rows[0],
-              // dropdown: result2.rows,
+              dropdown: withOutCurrentBookShelfArr,
               pgName: 'Details Page',
               home: '',
               searchNew: show
@@ -113,16 +112,14 @@ function renderBookDetails(req, res) {
 //////// Update Book Details and then Redirect to Details Page
 function handleUpdateBook(req, res) {
   let SQL = `UPDATE books 
-  SET title = $1, author = $2, isbn = $3, description = $4, image_url = $5 
-  WHERE id = $6
+  SET title = $1, author = $2, isbn = $3, description = $4, image_url = $5, bookshelf = $6 
+  WHERE id = $7
   RETURNING *`;
   let bookNum = req.params.book_id;
-  let params = [req.body.title, req.body.author, req.body.isbn, req.body.description, req.body.image_url, req.params.book_id];
+  let params = [req.body.title, req.body.author, req.body.isbn, req.body.description, req.body.image_url, req.body.bookshelf, req.params.book_id];
 
   client.query(SQL, params)
     .then(results => {
-      let databaseShelfs = results.rows;
-      console.log('+++++++++++++++++++++++++++++++++++', databaseShelfs);
       res.redirect(`/bookDetail/${bookNum}`);
     }).catch(error => handleError(error, res));
 }
