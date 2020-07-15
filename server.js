@@ -25,6 +25,9 @@ app.get('/searchs/new', handleSearch);
 app.post('/searches', renderResults);
 app.get('/bookDetail/:book_id', renderBookDetails);
 app.post('/bookDetail', handleSelectBook);
+
+app.delete('/delete/:book_id', handleDeleteBook);
+
 app.use('*', handleNotFound);
 app.use(handleError);
 
@@ -110,6 +113,20 @@ function handleSelectBook(req, res) {
       let show = '';
 
       res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show });
+    })
+    .catch(error => handleError(error, res));
+}
+
+///////////////    Delete Selected Book and Return to Home Page
+function handleDeleteBook(req, res) {
+  console.log('req.param:++++++++++++++++++++++++++++++++++++++++++++++++', req.params);
+  let SQL = 'DELETE from books WHERE id = $1';
+  let safeQuery = [req.params.book_id];
+
+  client
+    .query(SQL, safeQuery)
+    .then(results => {
+      res.status(200).redirect('/');
     })
     .catch(error => handleError(error, res));
 }
