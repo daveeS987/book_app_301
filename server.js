@@ -64,6 +64,7 @@ function renderResults(req, res) {
     .get(API)
     .query(queryObj)
     .then(apiData => {
+
       let bookArr = apiData.body.items.map(value => new Books(value));
       let show = '';
       res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results', home: show, searchNew: show});
