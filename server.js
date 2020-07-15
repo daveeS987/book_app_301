@@ -158,7 +158,7 @@ function handleNotFound(req, res) {
 
 function handleError(error, res) {
   console.log(error);
-  res.render('pages/error', {data: error.message, pgName: 'Error 404'});
+  res.render('pages/error', {data: error.message, home:'', searchNew: '', pgName: 'Error 404'});
 }
 
 
