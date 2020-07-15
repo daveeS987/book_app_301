@@ -63,10 +63,15 @@ function renderResults(req, res) {
     .get(API)
     .query(queryObj)
     .then(apiData => {
-
       let bookArr = apiData.body.items.map(value => new Books(value));
       let show = '';
-      res.render('pages/searches/show', { data: bookArr, pgName: 'Search Results', home: show, searchNew: show});
+
+      res.render('pages/searches/show',
+        { data: bookArr,
+          pgName: 'Search Results',
+          home: show,
+          searchNew: show
+        });
     })
     .catch(error => handleError(error, res));
 }
@@ -82,16 +87,25 @@ function Books(obj) {
 
 ////////////////     Render Book Details Page
 function renderBookDetails(req, res) {
-  // console.log('_______________________________', req.params);
   let SQL = `SELECT * FROM books WHERE id = $1`;
-  // let SQL2 = 'SELECT DISTINCT bookshelf FROM books';
+  let SQL2 = 'SELECT DISTINCT bookshelf FROM books';
   let param = [req.params.book_id];
   let show = '';
 
   client.query(SQL, param)
-    .then(results => {
-      let dataBaseBooks = results.rows;
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
+    .then(result1 => {
+      client.query(SQL2)
+        .then(result2 => {
+          console.log('First: results.rows+++++++++++++++++++++++++++++++++++', result1.rows);
+          console.log('Second: results.rows!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', result2.rows);
+          res.render('pages/books/show',
+            { data: result1.rows[0],
+              // dropdown: result2.rows,
+              pgName: 'Details Page',
+              home: '',
+              searchNew: show
+            });
+        });
     })
     .catch(error => handleError(error, res));
 }
@@ -113,14 +127,15 @@ function handleUpdateBook(req, res) {
     }).catch(error => handleError(error, res));
 }
 
+//////      Delete Selected Book and Redirect to Home Page
 function handleDeleteBook(req, res){
   let SQL = 'DELETE FROM books WHERE id = $1';
   let params = [req.params.book_id];
 
-  client.query(SQL, params).then(results => {
-    res.status(200).redirect('/');
-  }).catch(error => handleError(error, res));
-
+  client.query(SQL, params)
+    .then(() => {
+      res.status(200).redirect('/');
+    }).catch(error => handleError(error, res));
 }
 
 ////     Cache Selected Book to Database and Redirect to Detail Page
@@ -131,13 +146,9 @@ function handleSelectBook(req, res) {
     INSERT INTO books (author, title, isbn, image_url, description, bookshelf) 
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;`;
-  client
-    .query(SQL, safeQuery)
+  client.query(SQL, safeQuery)
     .then(results => {
-      let dataBaseBooks = results.rows;
-      let show = '';
-
-      res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
+      res.status(200).redirect(`/bookDetail/${results.rows[0].id}`);
     })
     .catch(error => handleError(error, res));
 }
