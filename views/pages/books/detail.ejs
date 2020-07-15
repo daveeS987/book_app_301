@@ -8,5 +8,26 @@
   <p><%= book.description %></p>
   <h5>ISBN: <%= book.isbn %></h5>
   <h5>Book Shelf: <%= book.bookshelf %></h5>
+  <form action="">
+    <button>Update Book Info</button>
+  </form>
+  <form method="post" action="/delete/<%=book.id%>?_method=delete">
+    <button>Delete Book</button>
+  </form>
+  
 </section>
 <% }) %>
+
+<section>
+  <form method="post" action="/updateBook/<%=book.id%>?_method=put">
+    <input type="text" placeholder="Title"></br>
+    <input type="text" placeholder="Author"></br>
+    <input type="text" placeholder="ISBN"></br>
+    <input type="text" placeholder="Image"></br>
+    <textarea type="text" placeholder="Description"></textarea></br>
+    <select class="bookshelf" name="" id="">
+      <option value="Default">Select bookshelf</option>
+    </select>
+    <button type="submit">Submit Changes</button>
+  </form>
+</section>

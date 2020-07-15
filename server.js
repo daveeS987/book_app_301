@@ -10,11 +10,13 @@ const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const app = express();
 const client = new pg.Client(process.env.DATABASE_URL);
+const override = require('method-override');
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
+app.use(override('_method'));
 app.set('view engine', 'ejs');
 
 // Routes
@@ -23,6 +25,8 @@ app.get('/searchs/new', handleSearch);
 app.post('/searches', renderResults);
 app.get('/bookDetail/:book_id', renderBookDetails);
 app.post('/bookDetail', handleSelectBook);
+app.put('/updateBook/:book_id', handleUpdateBook);
+app.delete('/delete/:book_id', handleDeleteBook);
 app.use('*', handleNotFound);
 app.use(handleError);
 
@@ -90,6 +94,21 @@ function renderBookDetails(req, res) {
       res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
     })
     .catch(error => handleError(error, res));
+}
+
+function handleUpdateBook(req, res) {
+  console.log('______________________________', req.body);
+  // res.redirect('/bookDetail/:book_id');
+}
+
+function handleDeleteBook(req, res){
+  let SQL = 'DELETE FROM books WHERE id = $1';
+  let params = [req.params.book_id];
+
+  client.query(SQL, params).then(results => {
+    res.status(200).redirect('/');
+  }).catch(error => handleError(error, res));
+
 }
 
 ////////////////     Cache Selected Book to Database and Redirect to Detail Page
