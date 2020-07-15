@@ -1,0 +1,19 @@
+<section>
+  <form method="post" action="/updateBook/<%=data.id%>?_method=put">
+    <input type="text" name="title" value="<%= data.title %>"></br>
+    <input type="text" name="author" value="<%= data.author %>"></br>
+    <input type="text" name="isbn" value="<%= data.isbn %>"></br>
+    <input type="text" name="image_url" value="<%= data.image_url %>"></br>
+    <input type="text" name="description" value="<%= data.description %>"></input></br>
+    <select class="bookshelf" name="bookshelf" id="">
+      <option value="Default" disabled>Select bookshelf</option>
+      <option value="<%=data.bookshelf%>"><%=data.bookshelf%></option>
+
+      <% dropdown.forEach(shelf => { %>
+      <option value="<%=shelf.bookshelf%>"><%=shelf.bookshelf%></option>
+      <% }) %>
+
+    </select>
+    <button type="submit">Submit Changes</button>
+  </form>
+</section>
