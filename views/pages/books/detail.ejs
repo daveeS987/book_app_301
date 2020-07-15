@@ -8,35 +8,25 @@
   <p><%= book.description %></p>
   <h5>ISBN: <%= book.isbn %></h5>
   <h5>Book Shelf: <%= book.bookshelf %></h5>
-
   <form action="">
-    <button>Update Detail</button>
+    <button>Update Book Info</button>
   </form>
-
-  <form method="post" action="/delete/<%= book.id %>?_method=delete">
+  <form method="post" action="/delete/<%=book.id%>?_method=delete">
     <button>Delete Book</button>
   </form>
+  
 </section>
 
-<section class="update_details">
-  <form method="post" action="/updateBook/<%= book.id %>?_method=put">
-    <fieldset>
-      <legend>Update Book Details</legend>
-      <input type="text" />
-      <br />
-      <input type="text" />
-      <br />
-      <input type="text" />
-      <br />
-      <input type="text" />
-      <br />
-      <textarea type="text"></textarea>
-      <br />
-      <select name="" id="" class="book_shelf">
-        <option value="default">select bookshelf</option>
-      </select>
-      <button type="submit">Update Book</button>
-    </fieldset>
+
+<section>
+  <form method="post" action="/updateBook/<%=book.id%>?_method=put">
+    <input type="text" name="title" value="<%= book.title %>"></br>
+    <input type="text" name="author" value="<%= book.author %>"></br>
+    <input type="text" name="isbn" value="<%= book.isbn %>"></br>
+    <input type="text" name="image_url" value="<%= book.image_url %>"></br>
+    <input type="text" name="description" value="<%= book.description %>"></input></br>
+
+    <button type="submit">Submit Changes</button>
   </form>
 </section>
 
