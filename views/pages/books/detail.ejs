@@ -17,3 +17,17 @@
   
 </section>
 <% }) %>
+
+<section>
+  <form method="post" action="/updateBook/<%=book.id%>?_method=put">
+    <input type="text" placeholder="Title"></br>
+    <input type="text" placeholder="Author"></br>
+    <input type="text" placeholder="ISBN"></br>
+    <input type="text" placeholder="Image"></br>
+    <textarea type="text" placeholder="Description"></textarea></br>
+    <select class="bookshelf" name="" id="">
+      <option value="Default">Select bookshelf</option>
+    </select>
+    <button type="submit">Submit Changes</button>
+  </form>
+</section>

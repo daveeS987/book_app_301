@@ -25,6 +25,7 @@ app.get('/searchs/new', handleSearch);
 app.post('/searches', renderResults);
 app.get('/bookDetail/:book_id', renderBookDetails);
 app.post('/bookDetail', handleSelectBook);
+app.put('/updateBook/:book_id', handleUpdateBook);
 app.delete('/delete/:book_id', handleDeleteBook);
 app.use('*', handleNotFound);
 app.use(handleError);
@@ -93,6 +94,11 @@ function renderBookDetails(req, res) {
       res.render('pages/books/show', { data: dataBaseBooks, pgName: 'Details Page', home: show, searchNew: show});
     })
     .catch(error => handleError(error, res));
+}
+
+function handleUpdateBook(req, res) {
+  console.log('______________________________', req.body);
+  // res.redirect('/bookDetail/:book_id');
 }
 
 function handleDeleteBook(req, res){
