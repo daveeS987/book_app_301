@@ -1,4 +1,4 @@
-<section>
+<section class="section_detail">
   <div class="img">
     <img src=" <%= data.image_url %> " />
   </div>
@@ -7,9 +7,9 @@
   <p><%= data.description %></p>
   <h5>ISBN: <%= data.isbn %></h5>
   <h5>Book Shelf: <%= data.bookshelf %></h5>
-  <form action="">
-    <button>Update Book Info</button>
-  </form>
+
+  <button class="button_update">Update Book Info</button>
+
   <form method="post" action="/delete/<%=data.id%>?_method=delete">
     <button>Delete Book</button>
   </form>

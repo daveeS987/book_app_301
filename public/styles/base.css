@@ -12,18 +12,18 @@ header {
   top: 0;
 }
 
-a{
+a {
   font-size: 15px;
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
 
-a:hover{
+a:hover {
   color: rgb(63, 63, 63);
 }
 
-.menu{
+.menu {
   color: white;
   width: 140px;
   height: 50px;
@@ -34,7 +34,7 @@ a:hover{
   cursor: pointer;
 }
 
-.menu:hover{
+.menu:hover {
   border: 2px solid white;
 }
 
@@ -55,6 +55,10 @@ a:hover{
   height: 70px;
   margin-top: -12px;
   padding-top: 0px;
+}
+
+.form_updateBook {
+  visibility: hidden;
 }
 
 main {

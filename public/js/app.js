@@ -1,5 +1,7 @@
 'use strict';
 
+console.log('Hello from app.js');
+
 $('.dropdown_menu').hide();
 
 $('.menu').click(() =>{
@@ -7,4 +9,7 @@ $('.menu').click(() =>{
   $('.dropdown_menu').show();
 });
 
-console.log('Hello from app.js');
+$('.button_update').click(() => {
+  $('.section_detail').hide();
+  $('.form_updateBook').css('visibility', 'visible');
+});
