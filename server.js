@@ -9,7 +9,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const app = express();
-const client = new pg.Client(process.env.DATABASE_URL);
+const client = new pg.Client(process.env.BOOKAPPDB_URL);
 const override = require('method-override');
 
 app.use(cors());
@@ -43,7 +43,7 @@ function handleHome(req, res) {
 
       res.render('pages/index', { data: databaseArr, pgName: `${amount} Saved Books`, home: hide, searchNew: show});
     })
-    .catch(error => handleError(error, res));
+    .catch(error => handleError(error, req, res));
 }
 
 ////////////////     Render Search Page
@@ -73,7 +73,7 @@ function renderResults(req, res) {
           searchNew: show
         });
     })
-    .catch(error => handleError(error, res));
+    .catch(error => handleError(error, req, res));
 }
 
 //////////////     Book Constructor
@@ -106,7 +106,7 @@ function renderBookDetails(req, res) {
             });
         });
     })
-    .catch(error => handleError(error, res));
+    .catch(error => handleError(error, req, res));
 }
 
 //////// Update Book Details and then Redirect to Details Page
@@ -121,7 +121,7 @@ function handleUpdateBook(req, res) {
   client.query(SQL, params)
     .then(results => {
       res.redirect(`/bookDetail/${bookNum}`);
-    }).catch(error => handleError(error, res));
+    }).catch(error => handleError(error, req, res));
 }
 
 //////      Delete Selected Book and Redirect to Home Page
@@ -132,7 +132,7 @@ function handleDeleteBook(req, res){
   client.query(SQL, params)
     .then(() => {
       res.status(200).redirect('/');
-    }).catch(error => handleError(error, res));
+    }).catch(error => handleError(error, req, res));
 }
 
 ////     Cache Selected Book to Database and Redirect to Detail Page
@@ -147,7 +147,7 @@ function handleSelectBook(req, res) {
     .then(results => {
       res.status(200).redirect(`/bookDetail/${results.rows[0].id}`);
     })
-    .catch(error => handleError(error, res));
+    .catch(error => handleError(error, req, res));
 }
 
 
@@ -156,8 +156,8 @@ function handleNotFound(req, res) {
   res.status(404).send('Route not found');
 }
 
-function handleError(error, res) {
-  console.log(error);
+function handleError(error, req, res) {
+  // console.log(error);
   res.render('pages/error', {pgName: 'Error 404', data: error.message, home:'', searchNew: '', });
 }
 
